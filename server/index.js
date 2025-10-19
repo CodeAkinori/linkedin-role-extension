@@ -20,7 +20,7 @@ app.post("/analisar", async (req, res) => {
       messages: [
         {
           role: "user",
-          content: `Analise a vaga a seguir e meu CV e diga se vale a pena ou não:
+          content: `Analise a vaga abaixo e meu CV em Markdown. Explique em português se vale a pena ou não e justifique detalhadamente:
 Vaga: ${vaga}
 CV: ${cv}`
         }
@@ -34,9 +34,10 @@ CV: ${cv}`
     });
 
     const output = chatCompletion.choices[0]?.message?.content || "Não foi possível analisar";
-    const decision = /sim/i.test(output) ? "sim" : "não";
+    const decision = /vale a pena/i.test(output) ? "sim" : "não";
 
     res.json({ decision, output });
+
   } catch (err) {
     console.error("Erro Groq API:", err);
     res.status(500).json({ error: err.message });
