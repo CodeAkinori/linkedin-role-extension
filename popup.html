@@ -1,24 +1,17 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <title>Analisa Vaga — CV Automático</title>
+  <meta charset="UTF-8" />
+  <title>LinkedIn Role Analyzer</title>
   <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
-  <header>
-    <h1>Analisa Vaga</h1>
-    <p>Extrai a descrição da vaga e carrega automaticamente o currículo em Markdown.</p>
-  </header>
-
-  <main>
-    <button id="extrair">Extrair descrição da vaga</button>
-    <textarea id="vagaTexto" placeholder="O texto da vaga aparecerá aqui..." rows="10"></textarea>
-
-    <h2>Currículo (Markdown)</h2>
-    <textarea id="cvMarkdown" readonly rows="8" placeholder="O currículo será carregado automaticamente..."></textarea>
-  </main>
-
+  <div class="container">
+    <h1>LinkedIn Role Analyzer</h1>
+    <textarea id="vagaTexto" placeholder="Texto da vaga..." readonly></textarea>
+    <button id="extrair">Extrair vaga e analisar</button>
+    <div id="resultado" class="resultado">Resultado aparecerá aqui...</div>
+  </div>
   <script src="popup.js"></script>
 </body>
 </html>

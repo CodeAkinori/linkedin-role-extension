@@ -1,62 +1,64 @@
+/* Popup tema escuro */
 body {
-  font-family: system-ui, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
-  padding: 1rem;
-  background: #0d1117;
-  color: #c9d1d9;
-  width: 420px;
+  padding: 0;
+  background-color: #0d1117; /* fundo escuro */
+  color: #c9d1d9; /* texto claro */
+  width: 450px;
+  height: 500px;
 }
-header {
-  border-bottom: 1px solid #30363d;
-  margin-bottom: 1rem;
+
+.container {
+  padding: 15px;
 }
+
 h1 {
-  font-size: 16px;
-  margin: 0 0 4px;
+  font-size: 18px;
+  margin-bottom: 12px;
+  text-align: center;
+  color: #58a6ff; /* azul GitHub escuro */
 }
-p {
-  font-size: 13px;
-  color: #8b949e;
-  margin: 0 0 10px;
-}
-button {
-  background: #238636;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-}
-button:hover {
-  background: #2ea043;
-}
+
 textarea {
   width: 100%;
-  margin-top: 10px;
-  background: #161b22;
-  border: 1px solid #30363d;
-  color: #c9d1d9;
+  height: 120px;
   padding: 10px;
   border-radius: 6px;
-  resize: vertical;
-  font-family: monospace;
+  border: 1px solid #30363d;
+  background-color: #161b22;
+  resize: none;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #c9d1d9;
 }
-h2 {
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #238636; /* verde GitHub escuro */
+  color: white;
   font-size: 14px;
-  margin-top: 16px;
-  border-top: 1px solid #30363d;
-  padding-top: 8px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: background-color 0.2s;
 }
 
-.actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 8px;
+button:hover {
+  background-color: #2ea043;
 }
 
-#statusCV {
-  font-size: 12px;
-  color: #8b949e;
+.resultado {
+  width: 100%;
+  height: 260px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #30363d;
+  background-color: #161b22;
+  overflow-y: auto;
+  font-size: 13px;
+  white-space: pre-wrap;
+  color: #c9d1d9;
 }

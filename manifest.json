@@ -1,11 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Analisa Vaga — Extração de Texto",
-  "description": "Extrai o texto das vagas do LinkedIn para futura análise com Groq API.",
-  "version": "0.2.0",
+  "name": "Analisa Vaga — Groq API",
+  "version": "0.5.0",
   "permissions": ["activeTab", "scripting"],
   "host_permissions": ["*://*.linkedin.com/*"],
-  "background": { "service_worker": "background.js" },
   "action": {
     "default_popup": "popup.html",
     "default_title": "Analisa Vaga"
@@ -14,8 +12,7 @@
     {
       "matches": ["*://*.linkedin.com/*"],
       "js": ["content.js"],
-      "run_at": "document_idle",
-      "all_frames": true
+      "run_at": "document_idle"
     }
   ]
 }
