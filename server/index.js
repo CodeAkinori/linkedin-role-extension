@@ -20,14 +20,21 @@ app.post("/analisar", async (req, res) => {
       messages: [
         {
           role: "user",
-          content: `Analise a vaga abaixo e meu CV em Markdown. Explique em português se vale a pena ou não e justifique detalhadamente:
+          content: `Analise a vaga abaixo e meu CV em Markdown. 
+Resuma em português para cada ponto:
+- Decisão final: vale a pena ou não
+- 3 principais pontos fortes
+- 3 principais pontos a melhorar
+- Conclusão compacta (2-3 linhas)
+
+Use linguagem direta, evite tabelas ou listas longas.
 Vaga: ${vaga}
 CV: ${cv}`
         }
       ],
       model: "openai/gpt-oss-20b",
-      temperature: 1,
-      max_completion_tokens: 8192,
+      temperature: 0.7,
+      max_completion_tokens: 1024,
       top_p: 1,
       stream: false,
       reasoning_effort: "medium"
