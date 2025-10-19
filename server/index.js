@@ -1,54 +1,67 @@
 import express from "express";
 import cors from "cors";
-import { Groq } from "groq-sdk";
-import { GROQ_API_KEY } from "../config.js";
+import dotenv from "dotenv";
+import Groq from "groq-sdk";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
-
-const groq = new Groq({ apiKey: GROQ_API_KEY });
-
 app.use(cors());
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json());
 
-app.post("/analisar", async (req, res) => {
+if (!process.env.GROQ_API_KEY) {
+  console.error("❌ Missing GROQ_API_KEY in .env");
+  process.exit(1);
+}
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+app.post("/analyze", async (req, res) => {
   try {
-    const { vaga, cv } = req.body;
-    if (!vaga || !cv) return res.status(400).json({ error: "vaga e cv são obrigatórios" });
+    const { jobDescription } = req.body;
+    if (!jobDescription) return res.status(400).json({ error: "Job description missing" });
 
-    const chatCompletion = await groq.chat.completions.create({
-      messages: [
-        {
-          role: "user",
-          content: `Analise a vaga abaixo e meu CV em Markdown. 
-Resuma em português para cada ponto:
-- Decisão final: vale a pena ou não
-- 3 principais pontos fortes
-- 3 principais pontos a melhorar
-- Conclusão compacta (2-3 linhas)
+    // Path to resume
+    const resumePath = path.join(__dirname, "../extension/static/resume-example.md");
+    const resume = fs.existsSync(resumePath)
+      ? fs.readFileSync(resumePath, "utf8")
+      : "No resume content found.";
 
-Use linguagem direta, evite tabelas ou listas longas.
-Vaga: ${vaga}
-CV: ${cv}`
-        }
-      ],
-      model: "openai/gpt-oss-20b",
-      temperature: 0.7,
-      max_completion_tokens: 1024,
-      top_p: 1,
-      stream: false,
-      reasoning_effort: "medium"
+    const prompt = `
+Você é um assistente que analisa se um candidato deve se candidatar a uma vaga.
+Compare o currículo abaixo com a descrição da vaga e responda em português.
+Resuma apenas os pontos principais e diga se vale a pena ou não se candidatar.
+
+Vaga:
+${jobDescription}
+
+Currículo:
+${resume}
+`;
+
+    const completion = await groq.chat.completions.create({
+      model: "llama3-8b-8192",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.5,
+      max_tokens: 700,
     });
 
-    const output = chatCompletion.choices[0]?.message?.content || "Não foi possível analisar";
-    const decision = /vale a pena/i.test(output) ? "sim" : "não";
-
-    res.json({ decision, output });
-
-  } catch (err) {
-    console.error("Erro Groq API:", err);
-    res.status(500).json({ error: err.message });
+    const text = completion.choices?.[0]?.message?.content?.trim();
+    res.json({ result: text || "⚠️ Nenhuma resposta gerada." });
+  } catch (error) {
+    console.error("❌ Erro Groq API:", error);
+    res.status(500).json({
+      error: "Erro ao chamar a Groq API",
+      details: error.message,
+    });
   }
 });
 
-app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Servidor rodando em http://localhost:${PORT}`));
