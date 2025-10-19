@@ -1,0 +1,44 @@
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 1rem;
+  background: #0d1117;
+  color: #c9d1d9;
+  width: 420px;
+}
+header {
+  border-bottom: 1px solid #30363d;
+  margin-bottom: 1rem;
+}
+h1 {
+  font-size: 16px;
+  margin: 0 0 4px;
+}
+p {
+  font-size: 13px;
+  color: #8b949e;
+  margin: 0 0 10px;
+}
+button {
+  background: #238636;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover {
+  background: #2ea043;
+}
+textarea {
+  width: 100%;
+  margin-top: 10px;
+  background: #161b22;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  padding: 10px;
+  border-radius: 6px;
+  resize: vertical;
+  font-family: monospace;
+}
